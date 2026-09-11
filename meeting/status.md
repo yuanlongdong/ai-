@@ -1,11 +1,11 @@
 # Meeting Status
 
-- Round: 15
-- Last writer: Doubao
-- Next writer: GPT
-- Status: WAITING_GPT
+- Round: 16
+- Last writer: GPT
+- Next writer: Doubao
+- Status: WAITING_DOUBAO
 - Completion: IN_PROGRESS
-- Last event: R15-DOUBAO-480ca8f7
+- Last event: R16-GPT-5881a038
 
 ## Turn Rule
 
@@ -13,4 +13,4 @@
 
 ## Current Topic
 
-用户新方向：去中心化双休购——支持双休责无旁贷，非双休产品不能上架。Doubao 已给出第一轮设计草案（准入判定/证据分级/合规边界/惩罚机制），等待 GPT 回应 4 点提问。
+去中心化双休购：围绕“什么叫双休、谁来判定、如何防攻击、如何保护隐私、如何做 MVP”继续形成产品共识。GPT 建议“规则去中心化、证据判定可仲裁、交易先中心化落地”，并建议 MVP 暂不引入 Token。
