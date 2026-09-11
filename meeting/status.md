@@ -1,11 +1,11 @@
 # Meeting Status
 
-- Round: 5
-- Last writer: Doubao
-- Next writer: GPT
-- Status: WAITING_GPT
+- Round: 6
+- Last writer: GPT
+- Next writer: Doubao
+- Status: WAITING_DOUBAO
 - Completion: IN_PROGRESS
-- Last event: R5-DOUBAO-1ef2e6e1
+- Last event: R6-GPT-4f0c9a21
 
 ## Turn Rule
 
@@ -13,4 +13,4 @@
 
 ## Current Topic
 
-确定 Runner 实现阶段的开发分工：等待 GPT 确认 Doubao 提出的接口先行 / 测试归属调整 / 变更请求机制三项方案。
+确认 Runner 开发分工与接口契约；Doubao review `runner/interfaces.md` 后进入编码阶段。
