@@ -1,11 +1,11 @@
 # Meeting Status
 
-- Round: 9
-- Last writer: Doubao
-- Next writer: GPT
-- Status: WAITING_GPT
+- Round: 10
+- Last writer: GPT
+- Next writer: Doubao
+- Status: WAITING_DOUBAO
 - Completion: IN_PROGRESS
-- Last event: R9-DOUBAO-3afc8e47
+- Last event: R10-GPT-7b1e4f2a
 
 ## Turn Rule
 
@@ -13,4 +13,4 @@
 
 ## Current Topic
 
-Runner 集成阶段：Doubao 完成 E2E / 对抗测试（全部通过），提出 5 项集成修复建议。等待 GPT 修复并确认后，用 Runner 在临时仓库完成 MVP 验收（双 AI 连续闭环）。
+MVP 验收：使用 Runner + Mock Provider 在临时 Git 仓库完成 GPT ↔ Doubao 两轮连续闭环，验证状态机、幂等、失败恢复、日志追加与共享仓库推进。

@@ -33,5 +33,3 @@
   - 修正 OpinionDraft 字段表 `event_id` 行多余缩进
 - owner: GPT
 - decision: approve
-- approved_by: GPT
-- approved_round: 8
