@@ -1,6 +1,6 @@
 # 双休企业商品白名单标准 v1（Double-Rest Standard v1）
 
-> 状态：草案（Doubao 起草，Round 20；待 GPT 复核后交用户确认）
+> 状态：草案（Doubao 起草，Round 20；Round 22 按 GPT Round 21 审查修正：加入 Reviewing 状态、单一来源人工核验、撤回语义；待 GPT adversarial review 后交用户确认）
 > 定位：定义"什么叫合格双休"，作为白名单协议（`whitelist-protocol.md`）的判定依据。
 > 配套：`specs/whitelist-protocol.md`｜会议：`meeting/doubao.md` Round 17-20
 
@@ -13,6 +13,8 @@
 3. 不存在被证实的常态化强制加班或违法压缩休息日行为。
 
 适用范围：**法律主体（营业执照主体）**，不按品牌/产品线判定；集团下各子公司分别判定。一个主体通过认证，其目录条目才可获得 Verified 凭证。
+
+**例外与适用范围**：特殊排班行业（医疗急救、零售、物流、制造业倒班等）若无法满足常规双休排布，须提供例外证明（合法工时审批 + 替代休息安排），由人工复核判断，**不由算法自行解释劳动法问题**。v1 明确：本标准的量化阈值是本项目认证规则，不等同于法律意义上的"双休合格线"。
 
 ## 2. 五维证据模型
 
@@ -32,7 +34,7 @@
 | 执行面 | L2：考勤记录/排班表样本 | 观察期 ≥30 个工作周样本，双休周占比 ≥90% |
 | 加班面 | L2/L3：加班审批记录、薪资单加班费项 | 无常态化强制周末加班证据 |
 | 节假日面 | L2：放假通知、调休方案 | 法定节假日休足，调休不破坏双休 |
-| 证据门槛 | 至少 1 个独立可核验来源（L1 或 L2） | 单一来源只能进入 Pending，不得直接 Verified |
+| 证据门槛 | 至少 1 个独立可核验来源（L1 或 L2） | 单一来源 → Pending → 人工核验通过后可 Verified（不因单一来源永久卡死） |
 
 ## 3. Hard Fail 条件（硬性否决，任一命中即不通过，不参与评分）
 
@@ -48,16 +50,19 @@
 
 | 状态 | 含义 | 可否上架 |
 |---|---|---|
-| Pending | 申请中/证据不足/单一来源待复核 | 否 |
+| Pending | 申请中/材料不足/单一来源待人工核验 | 否 |
+| Reviewing | 存在举报或反向证据，核验中（初筛确认前**不冻结**） | 维持原准入状态（来自 Verified 仍 Listed，展示"复核中"标记） |
 | Verified | 通过全部维度且无 Hard Fail，认证有效期内 | **是（唯一可上架状态）** |
-| Disputed | 被有效举报或出现反向证据，复核中 | 否 |
+| Disputed | 反向证据达冻结阈值，立即冻结 | 否 |
 | Rejected | Hard Fail 命中或申诉失败 | 否 |
 | Expired | 认证到期未复核 | 否（自动失效，非负面） |
 
 转移规则：
-- `Pending -> Verified`：补齐证据、通过全部维度
-- `Verified -> Disputed`：有效举报或反向证据
-- `Disputed -> Verified`：复核排除疑点（新 decision_id）
+- `Pending -> Verified`：材料补齐，或单一来源经人工核验通过
+- `Verified -> Reviewing`：有效举报（附可核验新证据）；初筛确认前不改变准入
+- `Reviewing -> Verified`：初筛排除疑点（新 decision_id）
+- `Reviewing -> Disputed`：反向证据达冻结阈值，立即 Not Listed
+- `Disputed -> Verified`：申诉复核通过（新 decision_id）
 - `Disputed -> Rejected`：确证违规
 - `Verified -> Expired`：到期未复核
 
@@ -87,8 +92,19 @@
 - **链上仅存哈希与元数据**：证据哈希（sha256）、证据类型、时间戳、状态、判定版本、decision_id；不含原件；
 - 原件存受控链下存储，访问受控（企业可取回自身材料，审核员按需访问）；
 - **最小化采集**：员工确认仅需在职状态 + 工作制声明，不采集薪资明细；
-- **删除/更正/撤回**：企业可撤回并删除自身证据；撤回后状态转 Pending/Rejected；
+- **删除/更正/撤回**：企业可**撤回访问权**——原件可按法律/隐私要求删除或限制访问，但 registry 中的证据哈希、decision_id、状态变更历史**必须保留**（不可篡改审计不被撤回机制破坏）；撤回后状态转 Pending/Rejected；
 - 对外展示仅限：状态 + 证据等级摘要；不展示原件。
+
+## 9. 验收案例（v1 强制 acceptance tests）
+
+以下 6 个场景必须以**纯规则 + 状态机**得出确定结果，作为 Spec 达到开发条件的门槛：
+
+1. 正常双休企业 → Verified → Listed
+2. 材料不足 → Pending → Not Listed
+3. 单一 L1/L2 来源 → Pending → 人工核验通过 → Verified（可 Listed）
+4. 竞争对手恶意举报 → Reviewing → 核验失败 → 恢复 Verified（期间不冻结）
+5. 真实强制周末加班（Hard Fail）→ Reviewing → Disputed → Rejected → Not Listed
+6. 6 个月到期未复核 → Expired → Not Listed
 
 ---
 

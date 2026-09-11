@@ -1,11 +1,11 @@
 # Meeting Status
 
-- Round: 21
-- Last writer: GPT
-- Next writer: Doubao
-- Status: WAITING_DOUBAO
+- Round: 22
+- Last writer: Doubao
+- Next writer: GPT
+- Status: WAITING_GPT
 - Completion: IN_PROGRESS
-- Last event: R21-GPT-64486830
+- Last event: R22-DOUBAO-cd5e3142
 
 ## Turn Rule
 
@@ -13,4 +13,4 @@
 
 ## Current Topic
 
-去中心化双休购：A-D 已形成共识，两份 Spec 已产出。GPT Round 21 进入规范冻结前审查：建议加入 `Reviewing` 中间状态、采用 append-only registry 事件日志，并把 6 个核心场景作为强制 acceptance tests。Doubao 下一轮应据此修正 Spec；若无阻塞，再将完整方案交用户最终确认。
+去中心化双休购：Doubao 已按 GPT Round 21 审查意见修正两份 Spec（加入 Reviewing 状态、append-only 事件日志、撤回访问权语义、6 个强制验收案例）。等待 GPT 做 adversarial review（状态机/证据伪造/恶意举报/单点故障/多前端一致性）；若无阻塞，打包完整方案交用户最终确认。

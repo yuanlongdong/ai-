@@ -1,6 +1,6 @@
 # 双休企业商品白名单协议 v1（Whitelist Protocol v1）
 
-> 状态：草案（Doubao 起草，Round 20；待 GPT 复核后交用户确认）
+> 状态：草案（Doubao 起草，Round 20；Round 22 按 GPT Round 21 审查修正：Reviewing 阶段、append-only 事件日志、举报不自动冻结；待 GPT adversarial review 后交用户确认）
 > 定位：定义"谁能上架、如何上架、如何下架、多前端如何读取"。
 > 一句话产品定义：**一个开放的双休企业商品白名单协议——企业通过可验证的双休标准获得 Verified 凭证进入公开白名单；任何前端都可以读取这份准入状态。**
 > 配套：`specs/double-rest-standard.md`｜会议：`meeting/doubao.md` Round 16-20
@@ -24,6 +24,7 @@
 **唯一规则：**
 - `Verified`（且未过期）→ `Listed`
 - `Pending / Disputed / Rejected / Expired` → `Not Listed`
+- `Reviewing` → **维持原准入状态**（来自 Verified 仍 Listed 但展示"复核中"标记；来自 Pending 则 Not Listed），直到转为 Disputed 才冻结
 
 该规则由**协议层统一定义**，前端只读取状态、不得自行解释。
 
@@ -34,8 +35,11 @@
 | 举报类型 | 条件 | 效果 |
 |---|---|---|
 | 普通线索 | 无新证据 | 仅标记"复核中"，**不改准入** |
-| 有效举报 | 附可核验新证据 | 进入 Disputed，**冻结准入（Not Listed）** |
+| 有效举报 | 附可核验新证据 | 进入 **Reviewing** 核验；初筛确认前**不冻结** |
+| 冻结 | 初筛确认反向证据达冻结阈值 | 转 **Disputed**，立即 Not Listed |
 | 确证违规 | 复核确认 | Rejected |
+
+**关键语义**：有效举报不等于立即下架——竞争对手伪造一份看似可信的材料也不能瞬间冻结正常企业；只有初筛确认反向证据达到冻结阈值，才从 Reviewing 转 Disputed。
 
 **防滥用：**
 - 举报人信誉影响举报权重；重复恶意举报 → 举报资格受限；
@@ -67,9 +71,22 @@
 
 ## 5. 多前端读取规则
 
-- **唯一状态源**：registry（MVP：带签名的状态文件/registry 仓库；后续可迁移链上）；
-- 前端：读取 registry → 本地缓存 → 校验签名 → 渲染；
-- 状态变更通过 registry 的 append-only 事件日志广播；前端仅消费同一 registry，保证多前端白名单一致。
+- **唯一状态源**：registry，采用 **append-only 事件日志**（不是只保存当前状态的 JSON 文件）；
+- 事件类型至少包含：
+
+```
+credential_issued      // 发证
+credential_renewed     // 续期
+report_opened          // 举报受理
+review_started         // 复核开始
+status_changed         // 状态变更
+appeal_submitted       // 申诉提交
+decision_made          // 判定作出
+credential_expired     // 认证过期
+```
+
+- 前端：读取事件日志 → 本地重放得出当前状态 → 校验签名 → 渲染；第三方可验证**完整状态历史**，而非只信任当前快照；
+- MVP 实现：带签名的 append-only 文件（每次追加签名）；后续可迁移链上。
 
 ## 6. 外链跳转边界
 
@@ -90,6 +107,17 @@
 - **信誉值**：举报/复核行为累积信誉分；用于举报权重与复核优先级；恶意行为降级；**不形成可交易金融资产**；
 - **治理决策**（标准修订、规则变更）：提案 + 公示 ≥14 天 + 维护者/社区确认，无经济激励；
 - **未来**：验证真实社区规模与攻击模型后，再评估是否引入经济机制（届时走标准/协议版本化流程）。
+
+## 9. 验收案例（v1 强制 acceptance tests）
+
+与标准 v1 §9 一致的 6 个强制场景，必须以纯规则 + 状态机得出确定结果：
+
+1. 正常双休企业 → Verified → Listed
+2. 材料不足 → Pending → Not Listed
+3. 单一 L1/L2 来源 → Pending → 人工核验通过 → Verified（可 Listed）
+4. 竞争对手恶意举报 → Reviewing → 核验失败 → 恢复 Verified（期间不冻结、不下架）
+5. 真实强制周末加班（Hard Fail）→ Reviewing → Disputed → Rejected → Not Listed
+6. 6 个月到期未复核 → Expired → Not Listed
 
 ---
 
