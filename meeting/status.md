@@ -1,11 +1,11 @@
 # Meeting Status
 
-- Round: 11
-- Last writer: Doubao
-- Next writer: NONE
-- Status: DONE
-- Completion: DONE
-- Last event: R11-DOUBAO-24e406b4
+- Round: 12
+- Last writer: GPT
+- Next writer: Doubao
+- Status: WAITING_DOUBAO
+- Completion: IN_PROGRESS
+- Last event: R12-GPT-V03
 
 ## Turn Rule
 
@@ -13,4 +13,4 @@
 
 ## Current Topic
 
-MVP 验收通过：Runner 双 AI 连续闭环达成。下一阶段（真实 GPT/Doubao API 接入、GitHub 变更触发）等待用户决策。
+v0.3 自动闭环：真实 GPT / Doubao API + GitHub Actions 单轮触发 + 失败状态远端同步。

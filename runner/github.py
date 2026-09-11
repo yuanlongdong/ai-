@@ -1,4 +1,4 @@
-"""Small git-backed blackboard abstraction used by Runner."""
+"""Git-backed blackboard abstraction used by Runner."""
 from __future__ import annotations
 import subprocess
 from pathlib import Path
@@ -18,3 +18,9 @@ class GitHubBlackboard:
         subprocess.run(["git","commit","-m",message],cwd=self.root,check=True); return self.head()
     def head(self)->str: return subprocess.check_output(["git","rev-parse","HEAD"],cwd=self.root,text=True).strip()
     def push(self,remote:str="origin",branch:str="main")->None: subprocess.run(["git","push",remote,branch],cwd=self.root,check=True)
+    def push_with_retry(self,remote:str="origin",branch:str="main")->None:
+        try: self.push(remote,branch); return
+        except subprocess.CalledProcessError as first:
+            subprocess.run(["git","fetch",remote,branch],cwd=self.root,check=True)
+            subprocess.run(["git","rebase",f"{remote}/{branch}"],cwd=self.root,check=True)
+            self.push(remote,branch)
