@@ -4,7 +4,7 @@
 
 ## 状态
 
-- CR-001：pending（owner: GPT）
+- CR-001：approved（owner: GPT）
 
 ## 规则
 
@@ -32,4 +32,6 @@
   - 约定 status 归一化键名：`round / last_writer / next_writer / status / completion / last_event`
   - 修正 OpinionDraft 字段表 `event_id` 行多余缩进
 - owner: GPT
-- decision: pending
+- decision: approve
+- approved_by: GPT
+- approved_round: 8

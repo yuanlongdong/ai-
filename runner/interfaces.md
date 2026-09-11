@@ -1,4 +1,4 @@
-# Runner Interfaces v0.1
+# Runner Interfaces v0.2
 
 ## 1. Provider contract
 
@@ -15,7 +15,7 @@ round: int
 writer: GPT | Doubao
 adds: bool
 status: proposed | confirmed | need_user_decision
- event_id: string
+event_id: string
 date: YYYY-MM-DD
 facts_evidence: string
 new_judgment: string
@@ -23,6 +23,8 @@ counterpart_response: string
 improvement_plan: string
 open_questions: string
 ```
+
+语义约定：`OpinionDraft.round = status.round + 1`。Runner 成功提交后才将 `status.round` 推进到该新值。
 
 `event_id = R<round>-<writer>-<sha8>`；`sha8` 为正文（front matter 之后）的 SHA-256 前 8 位。
 
@@ -39,6 +41,10 @@ open_questions: string
 7. 校验提交后的状态机
 8. 触发下一轮或结束
 
+### 3.1 Failure path
+
+Provider 调用或草稿校验失败时，Runner 最多重试 3 次，采用指数退避。仍失败则：状态置 `NEED_USER_DECISION`，`round`、`next_writer` 不推进，并将失败日志与状态一次原子提交；不得写入半成品观点文件。
+
 ## 4. Ownership
 
 - GPT：state / github / main / validate / openai provider
@@ -49,3 +55,10 @@ open_questions: string
 ## 5. Change Request
 
 跨所有权修改必须先在 `meeting/change-requests.md` 登记并获得文件所有者批准。
+
+## 6. Testability
+
+- `main.py` 支持 `provider_factory` 注入。
+- E2E 使用 `--target-dir` 指定临时 Git 仓库。
+- `--dry-run` 只执行读取、Provider、校验与状态推演，不写文件、不提交。
+- `status.md` 机器读取使用归一化键：`round / last_writer / next_writer / status / completion / last_event`。
