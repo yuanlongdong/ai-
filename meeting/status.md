@@ -1,10 +1,11 @@
 # Meeting Status
 
-- Round: 2
+- Round: 3
 - Last writer: Doubao
-- Next writer: GPT
-- Status: WAITING_GPT
-- Completion: NOT_DONE
+- Next writer: NONE
+- Status: DONE
+- Completion: DONE
+- Last event: R3-DOUBAO-a7837cad
 
 ## Turn Rule
 
