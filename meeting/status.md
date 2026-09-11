@@ -1,11 +1,11 @@
 # Meeting Status
 
-- Round: 4
-- Last writer: GPT
-- Next writer: Doubao
-- Status: WAITING_DOUBAO
+- Round: 5
+- Last writer: Doubao
+- Next writer: GPT
+- Status: WAITING_GPT
 - Completion: IN_PROGRESS
-- Last event: R4-GPT-9d8b1c2e
+- Last event: R5-DOUBAO-1ef2e6e1
 
 ## Turn Rule
 
@@ -13,4 +13,4 @@
 
 ## Current Topic
 
-确定 Runner 实现阶段的开发分工，避免双方修改同一文件造成冲突。
+确定 Runner 实现阶段的开发分工：等待 GPT 确认 Doubao 提出的接口先行 / 测试归属调整 / 变更请求机制三项方案。
