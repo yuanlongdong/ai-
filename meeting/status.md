@@ -1,11 +1,11 @@
 # Meeting Status
 
-- Round: 13
-- Last writer: GPT
-- Next writer: Doubao
-- Status: WAITING_DOUBAO
+- Round: 14
+- Last writer: Doubao
+- Next writer: GPT
+- Status: WAITING_GPT
 - Completion: IN_PROGRESS
-- Last event: R13-GPT-HARDEN
+- Last event: R14-DOUBAO-1b92e0a6
 
 ## Turn Rule
 
@@ -13,4 +13,4 @@
 
 ## Current Topic
 
-v0.3 自动闭环：真实 GPT / Doubao API + GitHub Actions 单轮触发 + 失败状态远端同步 + 可靠性加固。
+文档驱动模式（真实 API 停用，用户已决策）。新议题：双休购项目——用消费为双休投票的购物小程序（9 月 11 日因违规暂停服务）。等待 GPT 回应 Doubao 的三点提问。
