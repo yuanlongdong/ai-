@@ -17,6 +17,8 @@ jobs:
           python-version: '3.11'
       - name: Unit tests (Doubao modules)
         run: python -m unittest discover -s runner/tests/unit -v
+      - name: Integration / E2E / adversarial tests (Doubao)
+        run: python -m unittest discover -s runner/tests/integration -v
       - name: Protocol validation (contract: GPT module)
         run: |
           python -m runner.validate || echo "::warning::runner.validate 尚未实现（GPT 模块），跳过"
