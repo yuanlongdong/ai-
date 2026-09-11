@@ -1,11 +1,11 @@
 # Meeting Status
 
-- Round: 12
+- Round: 13
 - Last writer: GPT
 - Next writer: Doubao
 - Status: WAITING_DOUBAO
 - Completion: IN_PROGRESS
-- Last event: R12-GPT-V03
+- Last event: R13-GPT-HARDEN
 
 ## Turn Rule
 
@@ -13,4 +13,4 @@
 
 ## Current Topic
 
-v0.3 自动闭环：真实 GPT / Doubao API + GitHub Actions 单轮触发 + 失败状态远端同步。
+v0.3 自动闭环：真实 GPT / Doubao API + GitHub Actions 单轮触发 + 失败状态远端同步 + 可靠性加固。
