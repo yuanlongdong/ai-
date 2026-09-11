@@ -28,16 +28,22 @@ jobs:
   auto-run:
     runs-on: ubuntu-latest
     needs: test
-    if: ${{ secrets.GPT_API_KEY != '' || secrets.DOUBAO_API_KEY != '' }}
     permissions:
       contents: write
+    env:
+      HAS_GPT_KEY: ${{ secrets.GPT_API_KEY }}
+      HAS_DOUBAO_KEY: ${{ secrets.DOUBAO_API_KEY }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - uses: actions/setup-python@v5
         with: {python-version: '3.11'}
+      - name: Check API configuration
+        if: ${{ env.HAS_GPT_KEY == '' || env.HAS_DOUBAO_KEY == '' }}
+        run: echo 'AI auto-run skipped: configure both GPT_API_KEY and DOUBAO_API_KEY in Actions Secrets.'
       - name: Run one AI turn
+        if: ${{ env.HAS_GPT_KEY != '' && env.HAS_DOUBAO_KEY != '' }}
         env:
           OPENAI_API_KEY: ${{ secrets.GPT_API_KEY }}
           DOUBAO_API_KEY: ${{ secrets.DOUBAO_API_KEY }}
