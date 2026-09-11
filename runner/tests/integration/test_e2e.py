@@ -46,14 +46,20 @@ def seed_status_md(
 
 
 def make_repo(root: Path) -> GitHubBlackboard:
+    """初始化临时 git 仓库 + 裸远端 origin（main），供成功路径 push 使用。"""
     subprocess.run(["git", "init", "-q"], cwd=root, check=True)
     subprocess.run(["git", "config", "user.name", "E2E"], cwd=root, check=True)
     subprocess.run(["git", "config", "user.email", "e2e@test.local"], cwd=root, check=True)
+    remote = root / ".e2e-remote.git"
+    subprocess.run(["git", "init", "-q", "--bare", str(remote)], check=True)
+    subprocess.run(["git", "remote", "add", "origin", str(remote)], cwd=root, check=True)
     bb = GitHubBlackboard(root)
     bb.commit(
         ["meeting/context.md", "meeting/gpt.md", "meeting/doubao.md", "meeting/status.md"],
         "seed",
     )
+    subprocess.run(["git", "branch", "-M", "main"], cwd=root, check=True)
+    subprocess.run(["git", "push", "-u", "origin", "main"], cwd=root, check=True)
     return bb
 
 

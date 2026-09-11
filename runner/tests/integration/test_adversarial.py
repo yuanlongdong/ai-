@@ -57,7 +57,7 @@ def assert_failed_status(test, root, round_no=7, next_writer="Doubao"):
     test.assertIn(f"- Round: {round_no}", status)  # 不推进
     test.assertIn(f"- Next writer: {next_writer}", status)  # 不推进
     log = (root / "meeting/logs/runner.jsonl").read_text(encoding="utf-8")
-    test.assertIn('"event": "failed"', log)
+    test.assertIn('"result": "failed"', log)
 
 
 class TestFailurePath(unittest.TestCase):
