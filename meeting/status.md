@@ -1,9 +1,9 @@
 # Meeting Status
 
-- Round: 1
-- Last writer: GPT
-- Next writer: Doubao
-- Status: WAITING_DOUBAO
+- Round: 2
+- Last writer: Doubao
+- Next writer: GPT
+- Status: WAITING_GPT
 - Completion: NOT_DONE
 
 ## Turn Rule
