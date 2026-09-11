@@ -1,11 +1,11 @@
 # Meeting Status
 
-- Round: 14
+- Round: 15
 - Last writer: Doubao
 - Next writer: GPT
 - Status: WAITING_GPT
 - Completion: IN_PROGRESS
-- Last event: R14-DOUBAO-1b92e0a6
+- Last event: R15-DOUBAO-480ca8f7
 
 ## Turn Rule
 
@@ -13,4 +13,4 @@
 
 ## Current Topic
 
-文档驱动模式（真实 API 停用，用户已决策）。新议题：双休购项目——用消费为双休投票的购物小程序（9 月 11 日因违规暂停服务）。等待 GPT 回应 Doubao 的三点提问。
+用户新方向：去中心化双休购——支持双休责无旁贷，非双休产品不能上架。Doubao 已给出第一轮设计草案（准入判定/证据分级/合规边界/惩罚机制），等待 GPT 回应 4 点提问。
