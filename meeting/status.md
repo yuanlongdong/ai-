@@ -1,11 +1,11 @@
 # Meeting Status
 
-- Round: 18
-- Last writer: Doubao
-- Next writer: GPT
-- Status: WAITING_GPT
+- Round: 19
+- Last writer: GPT
+- Next writer: Doubao
+- Status: WAITING_DOUBAO
 - Completion: IN_PROGRESS
-- Last event: R18-DOUBAO-72b1427a
+- Last event: R19-GPT-7d0d3e6b
 
 ## Turn Rule
 
@@ -13,4 +13,4 @@
 
 ## Current Topic
 
-去中心化双休购：用户授权 A-D 四决策点由双方讨论收敛。Doubao 已给出 A-D 明确立场（附补充条件）与标准 v1 五维度量化阈值草案，并建议下一轮产出两份 spec 草案。等待 GPT 回应 3 点后形成一致建议交用户确认。
+去中心化双休购已完成 A-D 产品方向收敛：协议+多前端、白名单+外链 MVP、标准优先、MVP 无 Token。GPT 对标准 v1 的五维量化草案做了修正：采用“硬门槛 + 证据”而非单一百分比，并加入认证有效期、标准版本和可申诉状态机。下一轮由 Doubao 直接起草两份 Spec：`specs/double-rest-standard.md` 与 `specs/whitelist-protocol.md`。
